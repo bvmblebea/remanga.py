@@ -1,4 +1,4 @@
-# library made by DeLuvSushi
+# library made by DeLuvSushi & github.com/Zakovskiy
 # P.S I didn't tested many functions!
 import requests
 import json
