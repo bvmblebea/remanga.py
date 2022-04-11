@@ -1,26 +1,22 @@
 import requests
+import json
 
 
 class Client:
-    def __init__(self):
+    def __init__(self, access_token: str = None):
         self.api = "https://api.remanga.org"
-        self.access_token = None
         self.user_id = None
         self.headers = {
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"}
+        if access_token:
+            self.signin_by_access_token(access_token)
 
     # login
-    def login(self, user: str, password: str):
-        data = {"user": user, "password": password}
-        request = requests.post(
-            f"{self.api}/api/users/login/",
-            json=data,
-            headers=self.headers)
-        json = request.json()
-        self.access_token = json["content"]["access_token"]
-        self.user_id = json["content"]["id"]
+    def signin_by_access_token(self, access_token: str):
+        self.access_token = access_token
         self.headers["authorization"] = f"bearer {self.access_token}"
-        return json
+        self.user_id = self.get_account_info()["content"]["id"]
+        return self.access_token
 
     # send comment
     def send_comment(
@@ -55,18 +51,6 @@ class Client:
             "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"}
         return requests.post(
             f"{self.api}/api/logging/",
-            json=data,
-            headers=self.headers).json()
-
-    # register account
-    def register(self, email: str, password: str, username: str):
-        data = {
-            "confirm_password": password,
-            "email": email,
-            "password": password,
-            "username": username}
-        return requests.post(
-            f"{self.api}/api/users/signup/",
             json=data,
             headers=self.headers).json()
 
@@ -125,8 +109,8 @@ class Client:
             headers=self.headers).json()
 
     # like comment
-    def like_comment(self, comment_Id: int, type: int = 0):
-        data = {"comment": comment_Id, "type": type}
+    def like_comment(self, comment_id: int, type: int = 0):
+        data = {"comment": comment_id, "type": type}
         return requests.post(
             f"{self.api}/api/activity/votes/",
             json=data,
@@ -282,11 +266,4 @@ class Client:
     def get_important_notifications(self, count: int = 30, page: int = 1):
         return requests.get(
             f"{self.api}/api/users/notifications/?count={count}&page={page}&status=0&type=2",
-            headers=self.headers).json()
-
-    def reset_password(self, email: str):
-        data = {"email": email}
-        return requests.post(
-            f"{self.api}/api/users/password-reset/",
-            json=data,
             headers=self.headers).json()
