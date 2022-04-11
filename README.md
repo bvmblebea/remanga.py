@@ -8,7 +8,5 @@ API For russian reading manga website - https://remanga.org
 # Login
 import remanga
 client = remanga.Client()
-email = input("Email >> ")
-password = input("Password >> ")
-print(client.auth(email=email, password=password)))
+client.signin_by_access_token(access_token="")
 ```
