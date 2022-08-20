@@ -1,10 +1,10 @@
 import requests
 
-class Remanga:
+class Recomics:
     def __init__(self):
         self.api = "https://api.remanga.org"
         self.headers = {
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"}
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36"}
         self.user_id = None
         self.access_token = None
 
@@ -50,7 +50,8 @@ class Remanga:
             "is_pinned": is_pinned,
             "is_spoiler": is_spoiler,
             "text": text,
-            "title": title_id}
+            "title": title_id
+        }
         return requests.post(
             f"{self.api}/api/activity/comments/?title_id={title_id}",
             json=data,
@@ -68,7 +69,8 @@ class Remanga:
                 "key": ""},
             "deviceType": "desktop",
             "appVersion": "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36",
-            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"}
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
+        }
         return requests.post(
             f"{self.api}/api/logging/",
             json=data,
@@ -95,7 +97,12 @@ class Remanga:
             adult: bool = False,
             sex: int = 0,
             yaoi: int = 0):
-        data = {"adult": adult, "sex": sex, "username": username, "yaoi": yaoi}
+        data = {
+            "adult": adult,
+            "sex": sex,
+            "username": username,
+            "yaoi": yaoi
+        }
         return requests.put(
             f"{self.api}/api/users/current/",
             json=data,
@@ -116,14 +123,18 @@ class Remanga:
             "message": message,
             "reason": reason,
             "target": title_id,
-            "type": type}
+            "type": type
+        }
         return requests.post(
             f"{self.api}/panel/api/reports/",
             json=data,
             headers=self.headers).json()
 
     def like_comment(self, comment_id: int, type: int = 0):
-        data = {"comment": comment_id, "type": type}
+        data = {
+            "comment": comment_id,
+            "type": type
+        }
         return requests.post(
             f"{self.api}/api/activity/votes/",
             json=data,
@@ -146,7 +157,11 @@ class Remanga:
             headers=self.headers).json()
 
     def get_title_comments(self, title_id: int, page: int = 1):
-        data = {"title_id": title_id, "page": page, "ordering": "-id"}
+        data = {
+            "title_id": title_id,
+            "page": page,
+            "ordering": "-id"
+        }
         return requests.get(
             f"{self.api}/api/activity/comments/?title_id={title_id}&page={page}&ordering=-id",
             json=data,
@@ -184,7 +199,11 @@ class Remanga:
 
     # bookmark types, 0 - reading, 1 - will read, 2 - readed, 3 - abandoned, 4 - postponed, 5 - not interesting
     def add_to_bookmarks(self, title_id: int, type: int):
-        data = {"mangaId": title_id, "title": title_id, "type": type}
+        data = {
+            "mangaId": title_id,
+            "title": title_id,
+            "type": type
+        }
         return requests.post(
             f"{self.api}/api/users/bookmarks/",
             json=data,
@@ -218,14 +237,20 @@ class Remanga:
             headers=self.headers).json()
 
     def rate_title(self, title_id: int, rating: int = 10):
-        data = {"rating": rating, "title": title_id}
+        data = {
+            "rating": rating,
+            "title": title_id
+        }
         return requests.post(
             f"{self.api}/api/activity/ratings/",
             json=data,
             headers=self.headers).json()
 
     def like_chapter(self, chapter_id: int, type: int = 0):
-        data = {"chapter": chapter_id, "type": type}
+        data = {
+            "chapter": chapter_id,
+            "type": type
+        }
         return requests.post(
             f"{self.api}/api/activity/votes/",
             json=data,
@@ -251,7 +276,11 @@ class Remanga:
             f"{self.api}/api/forms/titles/?get=status",
             headers=self.headers).json()
 
-    def get_user_bookmarks(self, type: int, user_id: int, page: int = 1):
+    def get_user_bookmarks(
+            self,
+            type: int,
+            user_id: int,
+            page: int = 1):
         return requests.get(
             f"{self.api}/api/users/{user_id}/bookmarks/?ordering=-chapter_date&page={page}&type={type}",
             headers=self.headers).json()
