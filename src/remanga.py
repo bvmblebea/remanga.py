@@ -44,8 +44,8 @@ class Remanga:
 		}
 		response = requests.post(
 			f"{self.api}/api/users/login/",
-			json=data,
-			headers=self.headers).json()
+			data=data,
+			headers=self.headers).json()			
 		if "content" in response:
 			self.user_id = response["content"]["id"]
 			self.access_token = response["content"]["access_token"]
@@ -66,7 +66,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/activity/comments/?title_id={title_id}",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def logging(self, path_name: str = "/"):
@@ -86,7 +86,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/logging/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def similar_titles(self, title: str):
@@ -119,7 +119,7 @@ class Remanga:
 			data["username"] = username
 		return requests.put(
 			f"{self.api}/api/users/current/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def get_report_reasons(self):
@@ -141,7 +141,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/panel/api/reports/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def like_comment(self, comment_id: int, type: int = 0):
@@ -151,7 +151,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/activity/votes/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def get_genres(self):
@@ -177,7 +177,7 @@ class Remanga:
 		}
 		return requests.get(
 			f"{self.api}/api/activity/comments/?title_id={title_id}&page={page}&ordering=-id",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def get_user_info(self, user_id: str):
@@ -225,7 +225,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/users/bookmarks/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def change_password(
@@ -239,7 +239,7 @@ class Remanga:
 		}
 		return requests.put(
 			f"{self.api}/api/users/current/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def bill_promo_code(self, promo_code: str):
@@ -248,7 +248,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/billing/promo-codes/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def create_publishers(
@@ -261,7 +261,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/publishers/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def rate_title(self, title_id: int, rating: int = 10):
@@ -271,7 +271,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/activity/ratings/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def like_chapter(self, chapter_id: int, type: int = 0):
@@ -281,7 +281,7 @@ class Remanga:
 		}
 		return requests.post(
 			f"{self.api}/api/activity/votes/",
-			json=data,
+			data=data,
 			headers=self.headers).json()
 
 	def get_categories(self):
